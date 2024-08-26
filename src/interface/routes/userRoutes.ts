@@ -6,6 +6,6 @@ const router = Router();
 const service = new UserService(); 
 const controller = new UserController(service);
 
-router.get('/', (req, res) => controller.find(req, res));
+router.get('/:id', (req, res) => controller.find(req, res));
 
 export { router as userRoutes };
