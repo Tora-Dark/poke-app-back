@@ -1,15 +1,15 @@
-import { IsString, IsNotEmpty, IsOptional, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsNumber } from 'class-validator';
 
-export class UserRequestDTO {
-  // Required ID field with validation
-/*   @IsNotEmpty({ message: 'ID is required.' }) */
-/*   @IsNumber({}, { message: 'ID must be a number.' })
-  id!: number; */
+export class RegionRequestDTO {
+  // Cambia el ID a opcional si no se proporciona
+  @IsOptional()
+  @IsNumber({}, { message: 'ID must be a number.' })
+  id!: number;
 
-  // Optional name field with validation if provided
   @IsOptional()
   @IsString({ message: 'Name must be a string if provided.' })
   name?: string;
+
 
   // Additional fields can be uncommented and used as needed:
 

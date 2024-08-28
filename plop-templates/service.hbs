@@ -48,4 +48,9 @@ export class {{pascalCase name}}Service implements I{{pascalCase name}}Service {
       where: { id },
     });
   }
+
+   async findAll(): Promise<{{pascalCase name}}[]> {
+    const models = await this.prisma.{{camelCase name}}.findMany();
+    return models.map((model) => {{pascalCase name}}.create(model));
+  }
 }
