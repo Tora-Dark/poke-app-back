@@ -1,6 +1,12 @@
 import { IsString, IsNotEmpty, IsOptional, IsNumber } from 'class-validator';
 
-export class {{pascalCase name}}RequestDTO {
+export class PokeballRequestDTO {
+  // Required ID field with validation
+  @IsOptional()
+  @IsNumber({}, { message: 'ID must be a number.' })
+  id!: number;
+
+
   // Optional name field with validation if provided
   @IsOptional()
   @IsString({ message: 'Name must be a string if provided.' })

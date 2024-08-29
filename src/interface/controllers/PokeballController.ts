@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
 import { validate } from 'class-validator';
-import { {{pascalCase name}}RequestDTO } from '@interface/dto/request/{{pascalCase name}}RequestDTO';
-import { {{pascalCase name}}ResponseDTO } from '@interface/dto/response/{{pascalCase name}}ResponseDTO';
-import { {{pascalCase name}}Service } from '@infrastructure/services/{{pascalCase name}}Service';
+import { PokeballRequestDTO } from '@interface/dto/request/PokeballRequestDTO';
+import { PokeballResponseDTO } from '@interface/dto/response/PokeballResponseDTO';
+import { PokeballService } from '@infrastructure/services/PokeballService';
 
-export class {{pascalCase name}}Controller {
-  private service: {{pascalCase name}}Service;
+export class PokeballController {
+  private service: PokeballService;
 
-  constructor(service: {{pascalCase name}}Service) {
+  constructor(service: PokeballService) {
     this.service = service;
   }
   //http:post('/:id')
   async create(req: Request, res: Response): Promise<Response> {
-    const dto = Object.assign(new {{pascalCase name}}RequestDTO(), req.body);
+    const dto = Object.assign(new PokeballRequestDTO(), req.body);
     const errors = await validate(dto);
 
     if (errors.length > 0) {
@@ -20,7 +20,7 @@ export class {{pascalCase name}}Controller {
     }
 
     const entity = await this.service.create(dto);
-    const responseDto = {{pascalCase name}}ResponseDTO.fromRaw(entity);
+    const responseDto = PokeballResponseDTO.fromRaw(entity);
     return res.status(201).json(responseDto);
   }
  //http:get('/:id')
@@ -29,17 +29,17 @@ export class {{pascalCase name}}Controller {
     const entity = await this.service.findById(parseInt(id));
 
     if (!entity) {
-      return res.status(404).json({ message: '{{pascalCase name}} not found' });
+      return res.status(404).json({ message: 'Pokeball not found' });
     }
 
-    const responseDto = {{pascalCase name}}ResponseDTO.fromRaw(entity);
+    const responseDto = PokeballResponseDTO.fromRaw(entity);
     return res.status(200).json(responseDto);
   }
 
  //http:get('/')
     async findAll(req: Request, res: Response): Promise<Response> {
     const entities = await this.service.findAll();
-    const responseDtos = entities.map(entity => {{pascalCase name}}ResponseDTO.fromRaw(entity));
+    const responseDtos = entities.map(entity => PokeballResponseDTO.fromRaw(entity));
     return res.status(200).json(responseDtos);
   }
 }

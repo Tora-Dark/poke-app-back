@@ -2,9 +2,9 @@ import { IsString, IsNotEmpty, IsOptional, IsNumber } from 'class-validator';
 
 export class UserRequestDTO {
   // Required ID field with validation
-  @IsNotEmpty({ message: 'ID is required.' })
-  @IsNumber({}, { message: 'ID must be a number.' })
-  id!: number;
+/*   @IsNotEmpty({ message: 'ID is required.' }) */
+/*   @IsNumber({}, { message: 'ID must be a number.' })
+  id!: number; */
 
   // Optional name field with validation if provided
   @IsOptional()

@@ -1,26 +1,26 @@
 import { Request, Response } from 'express';
 import { validate } from 'class-validator';
-import { UserRequestDTO } from '@interface/dto/request/UserRequestDTO';
-import { UserResponseDTO } from '@interface/dto/response/UserResponseDTO';
-import { UserService } from '@infrastructure/services/UserService';
+import { RegionRequestDTO } from '@interface/dto/request/RegionRequestDTO';
+import { RegionResponseDTO } from '@interface/dto/response/RegionResponseDTO';
+import { RegionService } from '@infrastructure/services/RegionService';
 
-export class UserController {
-  private service: UserService;
+export class RegionController {
+  private service: RegionService;
 
-  constructor(service: UserService) {
+  constructor(service: RegionService) {
     this.service = service;
   }
   
   async create(req: Request, res: Response): Promise<Response> {
-    const dto = Object.assign(new UserRequestDTO(), req.body);
+    const dto = Object.assign(new RegionRequestDTO(), req.body);
     const errors = await validate(dto);
-  
+
     if (errors.length > 0) {
       return res.status(400).json({ errors });
     }
-  
+
     const entity = await this.service.create(dto);
-    const responseDto = UserResponseDTO.fromRaw(entity);
+    const responseDto = RegionResponseDTO.fromRaw(entity);
     return res.status(201).json(responseDto);
   }
 
@@ -29,17 +29,16 @@ export class UserController {
     const entity = await this.service.findById(parseInt(id));
 
     if (!entity) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'Region not found' });
     }
 
-    const responseDto = UserResponseDTO.fromRaw(entity);
+    const responseDto = RegionResponseDTO.fromRaw(entity);
     return res.status(200).json(responseDto);
   }
 
-  
   async findAll(req: Request, res: Response): Promise<Response> {
     const entities = await this.service.findAll();
-    const responseDtos = entities.map(entity => UserResponseDTO.fromRaw(entity));
+    const responseDtos = entities.map(entity => RegionResponseDTO.fromRaw(entity));
     return res.status(200).json(responseDtos);
   }
 }
