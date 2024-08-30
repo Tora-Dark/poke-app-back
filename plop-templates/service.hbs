@@ -17,7 +17,10 @@ export class {{pascalCase name}}Service implements I{{pascalCase name}}Service {
     });
     
     const createdEntity = await this.prisma.{{camelCase name}}.create({
-      data: entity,
+      data: {
+        name: entity.name,
+        // Add other properties as needed for Prisma
+      },
     });
 
     return {{pascalCase name}}.create(createdEntity);
@@ -47,5 +50,10 @@ export class {{pascalCase name}}Service implements I{{pascalCase name}}Service {
     await this.prisma.{{camelCase name}}.delete({
       where: { id },
     });
+  }
+
+   async findAll(): Promise<{{pascalCase name}}[]> {
+    const models = await this.prisma.{{camelCase name}}.findMany();
+    return models.map((model) => {{pascalCase name}}.create(model));
   }
 }

@@ -13,7 +13,7 @@ export class User {
 
   static create(data: Partial<UserProps>): User {
     return new User({
-      id: data.id ?? null, 
+      id: data.id ?? undefined, 
       name: data.name ?? null,
     });
   }
