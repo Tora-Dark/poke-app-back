@@ -14,11 +14,11 @@ export class UserController {
   async create(req: Request, res: Response): Promise<Response> {
     const dto = Object.assign(new UserRequestDTO(), req.body);
     const errors = await validate(dto);
-
+  
     if (errors.length > 0) {
       return res.status(400).json({ errors });
     }
-
+  
     const entity = await this.service.create(dto);
     const responseDto = UserResponseDTO.fromRaw(entity);
     return res.status(201).json(responseDto);
@@ -34,5 +34,12 @@ export class UserController {
 
     const responseDto = UserResponseDTO.fromRaw(entity);
     return res.status(200).json(responseDto);
+  }
+
+  
+  async findAll(req: Request, res: Response): Promise<Response> {
+    const entities = await this.service.findAll();
+    const responseDtos = entities.map(entity => UserResponseDTO.fromRaw(entity));
+    return res.status(200).json(responseDtos);
   }
 }
