@@ -1,7 +1,6 @@
 model User {
   id        Int       @id @default(autoincrement())
   name      String?
-  pokemons  Pokemon[] 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
