@@ -1,13 +1,17 @@
 import { Router } from "express";
+
 import { UserController } from "@interface/controllers/UserController";
 import { UserService } from "@infrastructure/services/UserService";
+import { asyncHandler } from "@interface/middleware";
+
+import { AsyncRequestHandler } from "src/types/asyncRequestHandler";
 
 const router = Router();
 const service = new UserService();
 const controller = new UserController(service);
 
-router.get("/", (req, res) => controller.findAll(req, res));
-router.get("/:id", (req, res) => controller.find(req, res));
-router.post("/", (req, res) => controller.create(req, res));
+router.get("/", asyncHandler(controller.findAll.bind(controller) as AsyncRequestHandler));
+router.get("/:id", asyncHandler(controller.find.bind(controller) as AsyncRequestHandler));
+router.post("/", asyncHandler(controller.create.bind(controller) as AsyncRequestHandler));
 
 export { router as userRoutes };
