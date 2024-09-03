@@ -3,6 +3,9 @@ import { Expose, plainToClass } from 'class-transformer';
 export class UserResponseDTO {
   @Expose()
   name!: string;
+  
+  @Expose()
+  email!: string;
 
   @Expose()
   lastname!: string;
