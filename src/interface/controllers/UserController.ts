@@ -28,6 +28,23 @@ export class UserController {
     return res.status(201).json(responseDto);
   }
 
+  async signUp(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response> {
+    const dto = Object.assign(new UserRequestDTO(), req.body);
+    const errors = await validate(dto);
+
+    if (errors.length > 0) {
+      return res.status(400).json({ errors });
+    }
+
+    const entity = await this.service.signUp(dto);
+    const responseDto = UserResponseDTO.fromRaw(entity);
+    return res.status(201).json(responseDto);
+  }
+
   async find(
     req: Request,
     res: Response,
@@ -38,6 +55,22 @@ export class UserController {
 
     if (!entity) {
       return res.status(404).json({ message: "User not found" });
+    }
+
+    const responseDto = UserResponseDTO.fromRaw(entity);
+    return res.status(200).json(responseDto);
+  }
+
+  async findByEmail(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response> {
+    const { email } = req.params;
+    const entity = await this.service.findByEmail(email);
+
+    if (!entity) {
+      return res.status(404).json({ message: "No user related to this email" });
     }
 
     const responseDto = UserResponseDTO.fromRaw(entity);

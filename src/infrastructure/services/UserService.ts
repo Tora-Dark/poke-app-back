@@ -13,8 +13,34 @@ export class UserService implements IUserService {
   async create(data: Partial<UserRequestDTO>): Promise<User> {
     const entity = User.create({
       name: data.name,
+      email: data.email,
       // Add other properties as needed
     });
+
+    const emailExists = await this.findByEmail(entity.email);
+
+    if (emailExists) {
+      throw new Error("Email already exists");
+    }
+
+    const createdEntity = await this.prisma.user.create({
+      data: entity,
+    });
+
+    return User.create(createdEntity);
+  }
+
+  async signUp(data: Partial<UserRequestDTO>): Promise<User> {
+    const entity = User.create({
+      name: data.name,
+      email: data.email,
+    });
+
+    const emailExists = await this.findByEmail(entity.email);
+
+    if (emailExists) {
+      throw new Error("Email already exists");
+    }
 
     const createdEntity = await this.prisma.user.create({
       data: entity,
@@ -26,6 +52,13 @@ export class UserService implements IUserService {
   async findById(id: number): Promise<User | null> {
     const model = await this.prisma.user.findUnique({
       where: { id },
+    });
+    return model ? User.create(model) : null;
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    const model = await this.prisma.user.findUnique({
+      where: { email },
     });
     return model ? User.create(model) : null;
   }
