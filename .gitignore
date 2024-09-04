@@ -8,6 +8,7 @@ build/
 # TypeScript
 *.tsbuildinfo
 *.d.ts
+!src/types/*.d.ts
 
 # Logs
 logs
