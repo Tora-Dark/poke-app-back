@@ -17,10 +17,7 @@ export class {{pascalCase name}}Service implements I{{pascalCase name}}Service {
     });
     
     const createdEntity = await this.prisma.{{camelCase name}}.create({
-      data: {
-        name: entity.name,
-        // Add other properties as needed for Prisma
-      },
+         data: entity,
     });
 
     return {{pascalCase name}}.create(createdEntity);

@@ -1,0 +1,11 @@
+model Product {
+  id          Int       @id @default(autoincrement())
+  name        String?
+  description String?
+  price       Float?
+  stock       Int?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  categories  Category[] @relation("ProductCategories")
+  tags        Tag[]      @relation("ProductTags")
+}

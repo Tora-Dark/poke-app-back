@@ -1,14 +1,12 @@
 import { Router } from "express";
-
-import { UserController } from "@interface/controllers/UserController";
-import { UserService } from "@infrastructure/services/UserService";
+import { TagController } from "@interface/controllers/TagController";
+import { TagService } from "@infrastructure/services/TagService";
 import { asyncHandler } from "@interface/middleware";
-
 import { AsyncRequestHandler } from "src/types/asyncRequestHandler";
 
 const router = Router();
-const service = new UserService();
-const controller = new UserController(service);
+const service = new TagService();
+const controller = new TagController(service);
 
 router.get(
   "/",
@@ -18,17 +16,16 @@ router.get(
   "/:id",
   asyncHandler(controller.find.bind(controller) as AsyncRequestHandler)
 );
-router.get(
-  "/email/:email",
-  asyncHandler(controller.findByEmail.bind(controller) as AsyncRequestHandler)
-);
-router.post(
-  "/signUp",
-  asyncHandler(controller.signUp.bind(controller) as AsyncRequestHandler)
+router.put(
+  "/:id",
+  asyncHandler(controller.update.bind(controller) as AsyncRequestHandler)
 );
 router.post(
   "/",
   asyncHandler(controller.create.bind(controller) as AsyncRequestHandler)
 );
-
-export { router as userRoutes };
+router.delete(
+    "/:id",
+    asyncHandler(controller.delete.bind(controller) as AsyncRequestHandler)
+  );
+export { router as tagRoutes };
