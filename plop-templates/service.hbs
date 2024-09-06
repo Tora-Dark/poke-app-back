@@ -44,6 +44,9 @@ export class {{pascalCase name}}Service implements I{{pascalCase name}}Service {
   }
 
   async delete(id: number): Promise<void> {
+       if (!(await this.findById(id))) {
+      throw new Error('{{pascalCase name}} not found');
+    }
     await this.prisma.{{camelCase name}}.delete({
       where: { id },
     });

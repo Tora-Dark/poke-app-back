@@ -4,16 +4,6 @@ export class TagResponseDTO {
   @Expose()
   name!: string;
 
-  @Expose()
-  lastname!: string;
-
-  @Expose()
-  age!: number;
-
-  @Expose({ name: 'fullName' })
-  getFullName() {
-    return `${this.name} ${this.lastname}`; // Adjust logic as necessary
-  }
 
   // Method to transform plain object into TagResponseDTO instance
   static fromRaw(rawData: object): TagResponseDTO {

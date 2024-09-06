@@ -39,7 +39,11 @@ export class CategoryController {
     }
 
     const responseDto = CategoryResponseDTO.fromRaw(entity);
-    res.status(200).json(responseDto);
+    res.status(200).json({
+      message: "Category retrieved successfully",
+      result: responseDto,
+
+    });
   }
   //* http:put('/:id')
 
@@ -74,42 +78,30 @@ export class CategoryController {
   }
 
     //* http:delete('/')
-  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { id } = req.params;
-
-    try {
-      // Llamada al servicio para eliminar la etiqueta
-      await this.service.delete(parseInt(id));
-
-      // Respuesta exitosa cuando se elimina
-      res.status(204).send();
-    } catch (error) {
-      // Verificar si el error es del tipo PrismaClientKnownRequestError
-      if (error instanceof Error && "code" in error) {
-        // Manejo específico para errores de Prisma
-        if ((error as any).code === "P2025") {
-          // Prisma error code for "record not found"
-          res.status(404).json({ message: "Category not found" });
-          return;
+    async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
+      const { id } = req.params;
+  
+      try {
+        await this.service.delete(parseInt(id));
+        res.status(200).json({ message: "Category deleted successfully" });
+      } catch (error) {
+        if (error instanceof Error && error.message === 'Tag not found') {
+          res.status(404).json({ message: 'Category not found' });
+        } else {
+          next(error); // Pass any other errors to the error handling middleware
         }
       }
-
-      // Pasar otros errores al middleware de error
-      next(error);
     }
-  }
-
   //* http:get('/')
 
-  async findAll(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  async findAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     const entities = await this.service.findAll();
     const responseDtos = entities.map((entity) =>
       CategoryResponseDTO.fromRaw(entity)
     );
-    res.status(200).json(responseDtos);
+    res.status(200).json({
+      message: "All products retrieved successfully",
+      result: responseDtos,
+    });
   }
 }

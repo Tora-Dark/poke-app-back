@@ -44,7 +44,7 @@ export class TagController {
     const responseDto = TagResponseDTO.fromRaw(entity);
     res.status(200).json({
       message: "Tag retrieved successfully",
-      tag: responseDto,
+      result: responseDto,
     });
   }
 
@@ -93,15 +93,14 @@ export class TagController {
       await this.service.delete(parseInt(id));
       res.status(200).json({ message: "Tag deleted successfully" });
     } catch (error) {
-      if (error instanceof Error && "code" in error) {
-        if ((error as any).code === "P2025") {
-          res.status(404).json({ message: "Tag not found" });
-          return;
-        }
+      if (error instanceof Error && error.message === 'Tag not found') {
+        res.status(404).json({ message: 'Tag not found' });
+      } else {
+        next(error); // Pass any other errors to the error handling middleware
       }
-      next(error);
     }
   }
+
 
   //* http:get('/')
 
@@ -111,8 +110,9 @@ export class TagController {
       TagResponseDTO.fromRaw(entity)
     );
     res.status(200).json({
-      message: "All tags retrieved successfully",
-      tags: responseDtos,
+      message: "All products retrieved successfully",
+      result: responseDtos,
+      error: "" // Add if necessary
     });
   }
 }

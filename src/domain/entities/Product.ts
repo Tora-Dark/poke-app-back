@@ -3,53 +3,44 @@ import { Tag } from "./Tag";
 
 interface ProductProps {
   id?: number | null;
-  name?: string | null;
+  name: string; // Required field
   description?: string | null;
-  price?: number | null;
-  stock?: number | null;
+  price: number; // Required field
+  stock: number; // Required field
   createdAt?: Date;
   updatedAt?: Date;
-  categories?: Category[];  
-  tags?: Tag[];  
+  categoryId?: number | null; // Optional, as category is not required
+  tags?: Tag[];
 }
 
 export class Product {
   readonly id?: number;
-  readonly name?: string | null;
+  readonly name!: string; // Required field
   readonly description?: string | null;
-  readonly price?: number;
-  readonly stock?: number;
+  readonly price!: number; // Required field
+  readonly stock!: number; // Required field
   readonly createdAt?: Date;
   readonly updatedAt?: Date;
-  readonly categories?: Category[];
+  readonly categoryId!: number | null; // Optional, as category is not required
   readonly tags?: Tag[];
 
   private constructor(props: ProductProps) {
     Object.assign(this, props);
   }
 
-  /**
-   * Creates a new instance of `Product` using the provided data.
-   * 
-   * @param data - The data to create a product entity, including optional fields.
-   * @returns A new `Product` instance.
-   * 
-   * Business logic:
-   * 1. Initializes a new `Product` with the provided data or defaults for missing fields.
-   * 2. If the `id`, `price`, and `stock` are not provided, they are left undefined, while nullable fields like `name` and `description` default to `null`.
-   * 3. Automatically assigns the current date for `createdAt` and `updatedAt` if not provided.
-   * 4. Ensures that the `categories` and `tags` arrays are always initialized, even if empty.
-   */
-  static create(data: Partial<ProductProps>): Product {
+  static create(data: ProductProps): Product {
+    if (!data.name) {
+      throw new Error("Category name is required");
+    }
     return new Product({
       id: data.id ?? undefined,
-      name: data.name ?? null,
+      name: data.name,
       description: data.description ?? null,
-      price: data.price ?? undefined,
-      stock: data.stock ?? undefined,
+      price: data.price,
+      stock: data.stock,
       createdAt: data.createdAt ?? new Date(),
       updatedAt: data.updatedAt ?? new Date(),
-      categories: data.categories ?? [],
+      categoryId: data.categoryId ?? null,
       tags: data.tags ?? [],
     });
   }

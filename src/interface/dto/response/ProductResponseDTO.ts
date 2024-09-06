@@ -3,17 +3,12 @@ import { Expose, plainToClass } from 'class-transformer';
 export class ProductResponseDTO {
   @Expose()
   name!: string;
-
   @Expose()
-  lastname!: string;
-
+  description!: string;
   @Expose()
-  age!: number;
-
-  @Expose({ name: 'fullName' })
-  getFullName() {
-    return `${this.name} ${this.lastname}`; // Adjust logic as necessary
-  }
+  price!: number;
+  @Expose()
+  stock!: number;
 
   // Method to transform plain object into ProductResponseDTO instance
   static fromRaw(rawData: object): ProductResponseDTO {

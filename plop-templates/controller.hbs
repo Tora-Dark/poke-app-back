@@ -44,9 +44,16 @@ export class {{pascalCase name}}Controller {
 
   //* http:get('/')
   
+ 
   async findAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     const entities = await this.service.findAll();
-    const responseDtos = entities.map(entity => {{pascalCase name}}ResponseDTO.fromRaw(entity));
-    res.status(200).json(responseDtos);
+    const responseDtos = entities.map((entity) =>
+      {{pascalCase name}}ResponseDTO.fromRaw(entity)
+    );
+    res.status(200).json({
+      message: "All products retrieved successfully",
+      result: responseDtos,
+      error: "" // Add if necessary
+    });
   }
 }

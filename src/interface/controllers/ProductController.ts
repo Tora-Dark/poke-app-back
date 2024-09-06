@@ -44,7 +44,7 @@ export class ProductController {
     const responseDto = ProductResponseDTO.fromRaw(entity);
     res.status(200).json({
       message: "Product retrieved successfully",
-      product: responseDto,
+      result: responseDto,
     });
   }
 
@@ -86,6 +86,7 @@ export class ProductController {
 
   //* http:delete('/:id')
 
+  //* http:delete('/')
   async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { id } = req.params;
 
@@ -93,16 +94,13 @@ export class ProductController {
       await this.service.delete(parseInt(id));
       res.status(200).json({ message: "Product deleted successfully" });
     } catch (error) {
-      if (error instanceof Error && "code" in error) {
-        if ((error as any).code === "P2025") {
-          res.status(404).json({ message: "Product not found" });
-          return;
-        }
+      if (error instanceof Error && error.message === "Tag not found") {
+        res.status(404).json({ message: "Product not found" });
+      } else {
+        next(error); // Pass any other errors to the error handling middleware
       }
-      next(error);
     }
   }
-
   //* http:get('/')
 
   async findAll(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -112,7 +110,8 @@ export class ProductController {
     );
     res.status(200).json({
       message: "All products retrieved successfully",
-      products: responseDtos,
+      result: responseDtos,
+      error: "" // Add if necessary
     });
   }
 }
