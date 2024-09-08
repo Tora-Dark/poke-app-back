@@ -3,6 +3,8 @@ import { validate } from "class-validator";
 import { ProductRequestDTO } from "@interface/dto/request/ProductRequestDTO";
 import { ProductResponseDTO } from "@interface/dto/response/ProductResponseDTO";
 import { ProductService } from "@infrastructure/services/ProductService";
+import { getUserIdFromReq } from "@interface/helpers/getUserIdFromReq";
+import { UserService } from "@infrastructure/services/UserService";
 
 export class ProductController {
   private service: ProductService;
@@ -26,7 +28,7 @@ export class ProductController {
     const responseDto = ProductResponseDTO.fromRaw(entity);
     res.status(201).json({
       message: "Product created successfully",
-      product: responseDto,
+      result: responseDto,
     });
   }
 
@@ -77,7 +79,7 @@ export class ProductController {
       const responseDto = ProductResponseDTO.fromRaw(updatedEntity);
       res.status(200).json({
         message: "Product updated successfully",
-        product: responseDto,
+        result: responseDto,
       });
     } catch (error) {
       next(error);

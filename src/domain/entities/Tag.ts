@@ -2,14 +2,13 @@ import { Product } from "./Product";
 
 interface TagProps {
   id?: number | null;
-  name: string; // Name is required according to the Prisma schema
+  name: string; 
   products?: Product[];
 }
 
 export class Tag {
   readonly id?: number;
-  readonly name!: string; // Name cannot be undefined
-  readonly products?: Product[];
+  readonly name!: string; 
 
   private constructor(props: TagProps) {
     Object.assign(this, props);
@@ -22,7 +21,7 @@ export class Tag {
 
     return new Tag({
       id: data.id ?? undefined,
-      name: data.name ?? undefined,
+      name: data.name,
       products: data.products ?? [],
     });
   }

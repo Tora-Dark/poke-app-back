@@ -4,7 +4,8 @@ export class TagResponseDTO {
   @Expose()
   name!: string;
 
-
+  @Expose()
+  id!: number;
   // Method to transform plain object into TagResponseDTO instance
   static fromRaw(rawData: object): TagResponseDTO {
     return plainToClass(TagResponseDTO, rawData, {

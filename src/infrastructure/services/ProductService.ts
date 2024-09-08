@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 import { IProductService } from "@domain/interfaces/services/IProductService";
 import { Product } from "@domain/entities/Product";
 import { ProductRequestDTO } from "@interface/dto/request/ProductRequestDTO";
-import { Category } from "@domain/entities/Category";
 import { Tag } from "@domain/entities/Tag";
 
 export class ProductService implements IProductService {
@@ -18,15 +17,23 @@ export class ProductService implements IProductService {
    * @param data - Data for the product to be created, including possible tags.
    * @returns The created `Product` entity with its relations.
    */
+
+
   async create(data: ProductRequestDTO): Promise<Product> {
+    const entity = Product.create({
+      name: data.name,
+      imageUrl: data.imageUrl,
+      description: data.description ?? null,
+      price: data.price,
+      stock: data.stock,
+      categoryId: data.categoryId,
+      tags: data.tags,
+    });
+
     const createdEntity = await this.prisma.product.create({
       data: {
-        name: data.name,
-        description: data.description ?? null,
-        price: data.price,
-        stock: data.stock,
-        category: { connect: { id: data.categoryId } },
-        tags: data.tags ? { connect: data.tags.map(id => ({ id })) } : undefined,
+        ...entity,
+        tags: { connect: (entity.tags as number[]).map(id => ({ id })) },
       },
       include: {
         category: true,
@@ -36,7 +43,6 @@ export class ProductService implements IProductService {
 
     return Product.create({
       ...createdEntity,
-      categoryId: createdEntity.category.id,
       tags: createdEntity.tags as Tag[],
     });
   }
@@ -58,10 +64,10 @@ export class ProductService implements IProductService {
 
     return model
       ? Product.create({
-          ...model,
-          categoryId: model.category.id,
-          tags: model.tags as Tag[],
-        })
+        ...model,
+        categoryId: model.category.id,
+        tags: model.tags as Tag[],
+      })
       : null;
   }
 
@@ -73,14 +79,21 @@ export class ProductService implements IProductService {
    * @returns The updated `Product` entity.
    */
   async update(id: number, data: ProductRequestDTO): Promise<Product> {
+
+    const entity = Product.create({
+      imageUrl: data.imageUrl,
+      name: data.name,
+      description: data.description ?? null,
+      price: data.price,
+      stock: data.stock,
+      categoryId: data.categoryId,
+      tags: data.tags
+    })
+
     const updatedEntity = await this.prisma.product.update({
       where: { id },
       data: {
-        name: data.name,
-        description: data.description ?? null,
-        price: data.price,
-        stock: data.stock,
-        category: { connect: { id: data.categoryId } },
+        ...entity,
         tags: data.tags ? { connect: data.tags.map(id => ({ id })) } : undefined,
       },
       include: {

@@ -12,7 +12,7 @@ const app = express();
 
 // Configura CORS para permitir el frontend local de Next.js
 const corsOptions = {
-  origin: "http://localhost:3000", // La URL de tu frontend en Next.js
+  origin: process.env.NEXT_APP_URL, // La URL de tu frontend en Next.js
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // Si necesitas enviar cookies o autenticación
 };

@@ -51,7 +51,7 @@ export class {{pascalCase name}}Controller {
       {{pascalCase name}}ResponseDTO.fromRaw(entity)
     );
     res.status(200).json({
-      message: "All products retrieved successfully",
+      message: "All {{pascalCase name}}s retrieved successfully",
       result: responseDtos,
       error: "" // Add if necessary
     });

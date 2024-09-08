@@ -7,6 +7,11 @@ export class ProductRequestDTO {
   @IsNotEmpty({ message: 'Name is required.' })
   @IsString({ message: 'Name must be a string.' })
   name!: string;
+  
+  
+  @IsNotEmpty({ message: 'Image is required.' })
+  @IsString({ message: 'Image must be a string.' })
+  imageUrl!: string;
 
   /**
    * Optional description field with validation if provided.
@@ -21,7 +26,7 @@ export class ProductRequestDTO {
   @IsNotEmpty({ message: 'Price is required and cannot be empty.' })
   @IsNumber({}, { message: 'Price must be a number.' })
   @Min(0, { message: 'Price must be at least 0.' })
-  @Max(1000, { message: 'Price cannot exceed 1000.' })
+  @Max(100000000000, { message: 'Price cannot exceed 100000000000.' })
   price!: number;
 
   /**

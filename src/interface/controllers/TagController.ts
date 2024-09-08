@@ -26,7 +26,7 @@ export class TagController {
     const responseDto = TagResponseDTO.fromRaw(entity);
     res.status(201).json({
       message: "Tag created successfully",
-      tag: responseDto,
+      result: responseDto,
     });
   }
 
@@ -77,7 +77,7 @@ export class TagController {
       const responseDto = TagResponseDTO.fromRaw(updatedEntity);
       res.status(200).json({
         message: "Tag updated successfully",
-        tag: responseDto,
+        result: responseDto,
       });
     } catch (error) {
       next(error);

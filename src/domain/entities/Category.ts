@@ -2,15 +2,15 @@ import { Product } from "./Product";
 
 interface CategoryProps {
   id?: number | null;
-  name: string; // Name is required according to the Prisma schema
-  products?: Product[]; // Omit in creation if not managed manually
+  name: string; 
+  products?: Product[]; 
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export class Category {
   readonly id?: number;
-  readonly name!: string; // Name cannot be undefined
+  readonly name!: string; 
   readonly products?: Product[];
   readonly createdAt?: Date;
   readonly updatedAt?: Date;
@@ -26,8 +26,8 @@ export class Category {
 
     return new Category({
       id: data.id ?? undefined,
-      name: data.name, // Ensures that name is always provided
-      products: data.products ?? [], // Initializes products as an empty array if not provided
+      name: data.name, 
+      products: data.products ?? [], 
       createdAt: data.createdAt ?? new Date(),
       updatedAt: data.updatedAt ?? new Date(),
     });

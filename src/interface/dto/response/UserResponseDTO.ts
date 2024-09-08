@@ -6,7 +6,8 @@ export class UserResponseDTO {
   
   @Expose()
   email!: string;
-
+  @Expose()
+  id!: number;
 
   // Method to transform plain object into UserResponseDTO instance
   static fromRaw(rawData: object): UserResponseDTO {

@@ -4,7 +4,11 @@ export class ProductResponseDTO {
   @Expose()
   name!: string;
   @Expose()
+  id!: number;
+  @Expose()
   description!: string;
+  @Expose()
+  imageUrl!: string; 
   @Expose()
   price!: number;
   @Expose()
