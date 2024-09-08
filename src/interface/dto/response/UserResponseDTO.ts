@@ -6,17 +6,8 @@ export class UserResponseDTO {
   
   @Expose()
   email!: string;
-
   @Expose()
-  lastname!: string;
-
-  @Expose()
-  age!: number;
-
-  @Expose({ name: 'fullName' })
-  getFullName() {
-    return `${this.name} ${this.lastname}`; // Adjust logic as necessary
-  }
+  id!: number;
 
   // Method to transform plain object into UserResponseDTO instance
   static fromRaw(rawData: object): UserResponseDTO {
